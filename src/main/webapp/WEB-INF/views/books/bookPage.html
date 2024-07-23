@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        .container p {
+            margin-bottom: 15px;
+        }
+        .container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .container select, .container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .container input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        .container input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        .actions a, .actions form {
+            flex: 1;
+            margin: 0 5px;
+        }
+        .actions button, .actions input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .actions button {
+            background-color: #28a745;
+        }
+        .actions button:hover {
+            background-color: #218838;
+        }
+        .actions input[type="submit"] {
+            background-color: #dc3545;
+        }
+        .actions input[type="submit"]:hover {
+            background-color: #c82333;
+        }
+        .navbar {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            background-color: #007bff;
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+
+        body {
+            padding-top: 60px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar" th:replace="templates/fragments/navbar :: navbar"></div>
+<div class="container" th:object="${book}">
+    <p>Title: <span th:text="*{title}"></span></p>
+    <p>Author: <span th:text="*{author}"></span></p>
+    <p>Genre: <span th:text="*{genre}"></span></p>
+    <p>Language: <span th:text="*{language}"></span></p>
+    <p>Year: <span th:text="*{year}"></span></p>
+    <p>Publisher: <span th:text="*{publisher}"></span></p>
+    <p>Description: <span th:text="*{description}"></span></p>
+</div>
+
+<div class="container" th:if="${readerWhichBorrow}">
+    <p>This book is now with: <span th:text="${readerWhichBorrow.getFullName()}"></span></p>
+    <form th:action="@{/books/returnBook/{id}(id=${book.getId()})}" th:method="PATCH">
+        <input type="submit" value="Return the book">
+    </form>
+</div>
+<div class="container" th:unless="${readerWhichBorrow}">
+    <form th:action="@{/books/borrowBook/{id}(id=${book.getId()})}" th:method="patch">
+        <label for="reader">Choose a reader:</label>
+        <select id="reader" name="reader">
+            <option th:each="reader : ${readers}" th:value="${reader.id}" th:text="${reader.getFullName()}"></option>
+        </select>
+        <input type="submit" value="Borrow book">
+    </form>
+</div>
+
+<div class="actions">
+    <a th:href="@{/books/edit/{id}(id=${book.id})}">
+        <button>Edit</button>
+    </a>
+    <form th:method="DELETE" th:action="@{/books/delete/{id}(id=${id})}">
+        <input type="submit" value="Delete">
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar</title>
+    <style>
+        .navbar {
+            background-color: #007bff;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div th:fragment="navbar">
+    <div class="navbar">
+        <a href="/books">Books</a>
+        <a href="/readers">Readers</a>
+        <a href="/books/addBook">Add Book</a>
+        <a href="/readers/addReader">Add Reader</a>
+    </div>
+</div>
+</body>
+</html>

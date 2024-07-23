@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Books</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .book {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .book p {
+            margin: 0 0 10px;
+        }
+        .book a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .book a:hover {
+            text-decoration: underline;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .navbar {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            background-color: #007bff;
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+
+        body {
+            padding-top: 60px;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar" th:replace="templates/fragments/navbar :: navbar"></div>
+<div th:each="book : ${books}" class="book">
+    <div>
+        <p>Title:
+            <a th:href="@{books/book/{id}(id=${book.getId()})}">
+                <span th:text="${book.getTitle()}"></span>
+            </a>
+        </p>
+        <p>Author: <span th:text="${book.getAuthor()}"></span></p>
+    </div>
+</div>
+<button onclick="window.location.href='books/addBook'">Add new Book</button>
+</body>
+</html>
